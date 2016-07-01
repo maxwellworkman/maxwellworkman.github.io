@@ -213,9 +213,6 @@ $(document).ready(function() {
         width+= 0.5;
         bar.width(width + '%');
     }
-    if (width % 20 = 0) {
-
-    }
   }
 
 
