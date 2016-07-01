@@ -203,27 +203,23 @@ $(document).ready(function() {
       }
     })
   }
-  function timer() {
-    cells.each(function() {
-      if ($(this).hasClass( "blink" )) {
-        $(this).toggleClass( "realBlink" );
-      }
-    })
-  }
+
   bar = $("#myBar");
   var width = 1;
   function timeBar() {
     if (width >= 100) {
-            width = 1;
-        } else {
-            width+= 0.5;
-            bar.width(width + '%');
-        }
+        width = 1;
+    } else {
+        width+= 0.5;
+        bar.width(width + '%');
+    }
+    if (width % 20 = 0) {
+
+    }
   }
 
 
   window.setInterval(sequencer, 4370);
-  window.setInterval(timer, 250);
   window.setInterval(timeBar, 22.1);
 });
 
@@ -241,10 +237,11 @@ var drumsListener = function() {$( ".grid" ).on("click", ".drums", function() {
 }
 
 var soundsListener = function(queue) {$( ".grid" ).on("click", ".sounds", function() {
-    queue.push($(this))
-    if (queue.length > 4) {
-      console.log("Do we get here?")
-      queue.shift().toggleClass("active");
+    if ($(this).hasClass("active")== false) {
+      queue.push($(this));
+      if (queue.length > 4) {
+        queue.shift().toggleClass("active");
+      }
     }
     $(this).toggleClass("active");
   })
