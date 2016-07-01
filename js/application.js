@@ -1,6 +1,8 @@
 $(document).ready(function() {
+
   drumsListener();
-  soundsListener();
+  var queue = [];
+  soundsListener(queue);
   bassListener();
 
   bassAudio_1_1 = $( "#bass_1_1" ).get(0);
@@ -51,19 +53,21 @@ $(document).ready(function() {
     bassAudio_1_8.play();
   }
   bassAudio_1_9 = $( "#bass_1_9" ).get(0);
+  bassAudio_1_9_path = $( "#bass_1_9" );
   window.bass_1_9 = function() {
     bassAudio_1_9.currentTime = 0;
     bassAudio_1_9.play();
   }
   bassAudio_1_10 = $( "#bass_1_10" ).get(0);
+  bassAudio_1_10_path = ( "#bass_1_10" );
   window.bass_1_10 = function() {
     bassAudio_1_10.currentTime = 0;
     bassAudio_1_10.play();
   }
-  soundsAudio_1_1 = $( "#bass_1_1" ).get(0);
-  window.bass_1_1 = function() {
-    bassAudio_1_1.currentTime = 0;
-    bassAudio_1_1.play();
+  soundsAudio_1_1 = $( "#sounds_1_1" ).get(0);
+  window.sounds_1_1 = function() {
+    soundsAudio_1_1.currentTime = 0;
+    soundsAudio_1_1.play();
   }
   soundsAudio_1_2 = $( "#sounds_1_2" ).get(0);
   window.sounds_1_2 = function() {
@@ -199,9 +203,31 @@ $(document).ready(function() {
       }
     })
   }
+  function timer() {
+    cells.each(function() {
+      if ($(this).hasClass( "blink" )) {
+        $(this).toggleClass( "realBlink" );
+      }
+    })
+  }
+  bar = $("#myBar");
+  var width = 1;
+  function timeBar() {
+    if (width >= 100) {
+            width = 1;
+        } else {
+            width+= 0.5;
+            bar.width(width + '%');
+        }
+  }
 
-  window.setInterval(sequencer, 4365);
+
+  window.setInterval(sequencer, 4370);
+  window.setInterval(timer, 250);
+  window.setInterval(timeBar, 22.1);
 });
+
+
 
 var drumsListener = function() {$( ".grid" ).on("click", ".drums", function() {
     var previousActive = $(this).parent().parent().find('.drums.active')
@@ -214,10 +240,9 @@ var drumsListener = function() {$( ".grid" ).on("click", ".drums", function() {
   })
 }
 
-var soundsListener = function() {$( ".grid" ).on("click", ".sounds", function() {
-    var queue = [];
+var soundsListener = function(queue) {$( ".grid" ).on("click", ".sounds", function() {
     queue.push($(this))
-    if (queue.length > 3) {
+    if (queue.length > 4) {
       console.log("Do we get here?")
       queue.shift().toggleClass("active");
     }

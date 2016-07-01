@@ -1,28 +1,33 @@
-body {
-  background-color: gray;
+html {
+  min-height: 100%;
+  background: #fe9595; /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(#fe9595, #fefe95); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(#fe9595, #fefe95); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(#fe9595, #fefe95); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(#fe9595, #fefe95); /* Standard syntax */
 }
 
 
-h1 {
+p {
+  margin-left: 28px;
   text-align: center;
   color: white;
-  padding-top: 80px;
+  padding-top: 60px;
+  font-family: 'Poiret One', cursive;
+  font-size: 50px;
 }
 
 
 .grid {
   font-size: 0;
   margin: auto;
-  height: 320px;
-  width: 320px;
+  height: 420px;
+  width: 420px;
   padding-top: 70px;
   text-align: center;
   -webkit-transform: rotate(45deg);
   -moz-transform: rotate(45deg);
-  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=5);}
-
-body {
-  color: red;
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=5);
 }
 
 div .row {
@@ -46,34 +51,59 @@ div .cell-0-0 {
 }
 
 div .drums {
-  background-color: hsla(253, 73%, 45%, 0.85);
+  background-color: hsla(245, 80%, 66%, 0.9);
 }
 div .drums.active {
   background-color: hsla(253, 100%, 90%, 1);
+}
+div .drums.realBlink {
+  background-color: hsla(245, 90%, 76%, 0.9);
 }
 div .drums:hover {
   background-color: hsla(253, 100%, 90%, 1);
 }
 
 div .sounds {
-  background-color: hsla(150, 73%, 45%, 0.85);
+  background-color: hsla(305, 68%, 66%, 0.9);
 }
 div .sounds.active {
-  background-color: hsla(150, 85%, 80%, 1);
+  background-color: hsla(305, 90%, 90%, 1);
+}
+div .sounds.realBlink {
+  background-color: hsla(305, 78%, 76%, 0.9);
 }
 div .sounds:hover {
-  background-color: hsla(150, 85%, 80%, 1);
+  background-color: hsla(305, 90%, 90%, 1);
 }
 
 div .bass {
-  background-color: hsla(360, 73%, 45%, 0.85);
+  background-color: hsla(360, 80%, 66%, 0.9);
 }
 div .bass.active{
   background-color: hsla(360, 90%, 85%, 1);
 }
+div .bass.realBlink{
+  background-color: hsla(360, 90%, 86%, 0.9);
+}
 div .bass:hover{
   background-color: hsla(360, 90%, 85%, 1);
 }
+
+#myProgress {
+    position: relative;
+    width:100%;
+    height: 4px;
+    margin: 0 auto;
+    background-color: #fe9595;
+}
+#myBar {
+    position: absolute;
+    width: 1%;
+    height: 100%;
+    background-color: white;
+}
+
+
 
 
 
