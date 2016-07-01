@@ -1,0 +1,79 @@
+body {
+  background-color: gray;
+}
+
+
+h1 {
+  text-align: center;
+  color: white;
+  padding-top: 80px;
+}
+
+
+.grid {
+  font-size: 0;
+  margin: auto;
+  height: 320px;
+  width: 320px;
+  padding-top: 70px;
+  text-align: center;
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=5);}
+
+body {
+  color: red;
+}
+
+div .row {
+  width: 12%;
+  height: 73%;
+  display: inline-block;
+  margin: 0;
+}
+
+
+div .cell {
+  /*border-radius: 5px;*/
+  height: 15.6%;
+  text-align: center;
+  margin: 2px 1px 2px 1px;
+  box-sizing: border-box;
+}
+
+div .cell-0-0 {
+
+}
+
+div .drums {
+  background-color: hsla(253, 73%, 45%, 0.85);
+}
+div .drums.active {
+  background-color: hsla(253, 100%, 90%, 1);
+}
+div .drums:hover {
+  background-color: hsla(253, 100%, 90%, 1);
+}
+
+div .sounds {
+  background-color: hsla(150, 73%, 45%, 0.85);
+}
+div .sounds.active {
+  background-color: hsla(150, 85%, 80%, 1);
+}
+div .sounds:hover {
+  background-color: hsla(150, 85%, 80%, 1);
+}
+
+div .bass {
+  background-color: hsla(360, 73%, 45%, 0.85);
+}
+div .bass.active{
+  background-color: hsla(360, 90%, 85%, 1);
+}
+div .bass:hover{
+  background-color: hsla(360, 90%, 85%, 1);
+}
+
+
+
