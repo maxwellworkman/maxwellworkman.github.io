@@ -1,105 +1,14 @@
-html {
-  min-height: 100%;
-  background: #fe9595; /* For browsers that do not support gradients */
-  background: -webkit-linear-gradient(#fe9595, #fee086); /* For Safari 5.1 to 6.0 */
-  background: -o-linear-gradient(#fe9595, #fee086); /* For Opera 11.1 to 12.0 */
-  background: -moz-linear-gradient(#fe9595, #fee086); /* For Firefox 3.6 to 15 */
-  background: linear-gradient(#fe9595, #fee086); /* Standard syntax */
+html, body {
+  width:  100%;
+  height: 100%;
+  margin: 0px;
 }
 
-
-p {
-  margin-left: 28px;
-  text-align: center;
-  color: white;
-  padding-top: 60px;
-  font-family: 'Poiret One', cursive;
-  font-size: 50px;
+body {
+  font-family: 'Titillium Web', sans-serif;
 }
 
+#background {
 
-.grid {
-  font-size: 0;
-  margin: auto;
-  height: 420px;
-  width: 420px;
-  padding-top: 70px;
-  text-align: center;
-  -webkit-transform: rotate(45deg);
-  -moz-transform: rotate(45deg);
-  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=5);
 }
-
-div .row {
-  width: 12%;
-  height: 73%;
-  display: inline-block;
-  margin: 0;
-}
-
-
-div .cell {
-  /*border-radius: 5px;*/
-  height: 15.6%;
-  text-align: center;
-  margin: 2px 1px 2px 1px;
-  box-sizing: border-box;
-}
-
-div .drums {
-  background-color: hsla(245, 80%, 66%, 0.9);
-}
-div .drums.active {
-  background-color: hsla(253, 100%, 90%, 1);
-}
-div .drums.realBlink {
-  background-color: hsla(245, 90%, 76%, 0.9);
-}
-div .drums:hover {
-  background-color: hsla(253, 100%, 90%, 1);
-}
-
-div .sounds {
-  background-color: hsla(305, 68%, 66%, 0.9);
-}
-div .sounds.active {
-  background-color: hsla(305, 90%, 90%, 1);
-}
-div .sounds.realBlink {
-  background-color: hsla(305, 78%, 76%, 0.9);
-}
-div .sounds:hover {
-  background-color: hsla(305, 90%, 90%, 1);
-}
-
-div .bass {
-  background-color: hsla(360, 80%, 66%, 0.9);
-}
-div .bass.active{
-  background-color: hsla(360, 90%, 85%, 1);
-}
-div .bass.realBlink{
-  background-color: hsla(360, 90%, 86%, 0.9);
-}
-div .bass:hover{
-  background-color: hsla(360, 90%, 85%, 1);
-}
-
-#myProgress {
-    position: relative;
-    width:100%;
-    height: 4px;
-    margin: 0 auto;
-    background-color: #fe9595;
-}
-#myBar {
-    position: absolute;
-    width: 1%;
-    height: 100%;
-    background-color: white;
-}
-
-
-
-
 
