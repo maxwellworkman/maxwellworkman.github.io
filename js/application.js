@@ -1,4 +1,12 @@
 
+window.requestAnimFrame = (function(callback) {
+return window.requestAnimationFrame || window.webkitRequestAnimationFrame
+	|| window.mozRequestAnimationFrame || window.oRequestAnimationFrame
+	|| window.msRequestAnimationFrame || function(callback) {
+		window.setTimeout(callback, 1000 / 60);
+	};
+})();
+
 // Setup environment
 c = document.getElementById("timebeach");
 ctx = c.getContext("2d");
@@ -62,7 +70,6 @@ switch(time) {
 }
 
 function animate(numberOfStarsToAnimate) {
-	console.log("start")
 	Beach.drawSky();
 	for(var i = 0; i < numberOfStarsToAnimate; i++) {
 		var id = randomInt(0, starArray.length - 1),
@@ -71,9 +78,10 @@ function animate(numberOfStarsToAnimate) {
 		do {
 			newAlpha = randomFloatAround(obj.alpha);
 		} while(newAlpha < min_bright || newAlpha > max_bright)
-		starArray[id] = createStar(obj.x, obj.y, obj.size, newAlpha);
+		starArray[id] = Beach.createStar(obj.x, obj.y, obj.size, newAlpha);
 	}
-	console.log("runnin");
+	Beach.generateStars();
+	Beach.drawOrb();
 	window.requestAnimationFrame(function() {
 		animate(numberOfStarsToAnimate);
 	});
@@ -87,9 +95,14 @@ Beach = {
   		ctx.canvas.height = window.innerHeight;
   		initializeCoords();
   		// Stars
-  		var density = 30;
+  		var density = 20;
   		numStars = Math.floor(ctx.canvas.width/density * (ctx.canvas.height/3)/density);
   		var starArray = [];
+  		// Sky gradient for drawing stars
+  		var skyGrd=ctx.createRadialGradient(anim.moonX, anim.moonY, anim.smallerCirc, anim.moonX, anim.moonY, anim.largerCirc);
+		skyGrd.addColorStop(0,palette.skyLight);
+		skyGrd.addColorStop(1,palette.sky);
+		ctx.fillStyle=skyGrd;
   	},
   	drawSky: function() {
   		var smallerCirc = ctx.canvas.width/50;
@@ -171,9 +184,9 @@ Beach = {
 		grd.addColorStop(0, 'rgba(255, 255, 255, ' + alpha + ')');
 		grd.addColorStop(1, 'rgba(0, 0, 0, 0)');
 		// clear background pixels
-		//ctx.beginPath();
-		//ctx.clearRect(x - radius - 1, y - radius - 1, radius * 2 + 2, radius * 2 + 2);
-		//ctx.closePath();
+		// ctx.beginPath();
+		// ctx.clearRect(x - radius - 1, y - radius - 1, radius * 2 + 2, radius * 2 + 2);
+		// ctx.closePath();
 		// draw star
 		ctx.beginPath();
 		ctx.arc(x,y + upDown,radius,0,2*Math.PI);
@@ -216,6 +229,7 @@ function randomFloatAround(num) {
 function run() {
 	Beach.init();
 	Beach.drawSky();
+	Beach.generateStars(numStars, 0.5)
 	Beach.drawOrb();
 	Beach.drawOcean();
 }
