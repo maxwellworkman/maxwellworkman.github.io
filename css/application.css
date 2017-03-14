@@ -1,3 +1,8 @@
+html {
+	height: 100%;
+	overflow: ;auto
+}
+
 html, body {
   width:  100%;
   height: 100%;
@@ -6,40 +11,34 @@ html, body {
 
 body {
   font-family: 'Titillium Web', sans-serif;
-}
-
-#out {
-	position: absolute;
-	top: 0;
-	left: 0;
-	font-size: 20px;
-	color: "white";
+  height: 100%;
 }
 
 #background {
+	overflow: hidden;
 
 }
 
 #solids {
-	position: absolute;
+	position: fixed;
 	top: 0;
 	left: 0;
 }
 
 #stars {
-	position: absolute;
+	position: fixed;
 	top: 0;
 	left: 0;
 }
 
 #sparkles {
-	position: absolute;
+	position: fixed;
 	top: 0;
 	left: 0;
 }
 
 #out {
-	position: absolute;
+	position: fixed;
 	top: 10px;
 	left: 20px;
 	width: 50px;
@@ -48,3 +47,21 @@ body {
 	z-index: 100;
 	color: white;
 }
+
+#mainContainer {
+	height: 100%;
+	width: 100%;
+	position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+#paragraphs {
+	overflow: scroll;
+	top: 0;
+	left: 0;
+	z-index: 101;
+}
+

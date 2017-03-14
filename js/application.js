@@ -14,6 +14,7 @@
 
 
 (function() {
+	//setup canvases
 	c = document.getElementById("solids");
 	ctx = c.getContext("2d");
 	ctx.canvas.width  = window.innerWidth;
@@ -32,7 +33,8 @@
 	// Performance calculation
 	var $out = $('#out');
 
-	var colorPalettes = {
+	// Colors for transitions
+/*	var colorPalettes = {
 		morning: { 
 			sky: "hsl(226, 47%, 14%)",
 			skyLight: "hsl(219, 60%, 40%)",
@@ -64,6 +66,43 @@
 				return "hsla(55, 100%, 83%, " + alpha + ")"
 			}
 		}
+	}*/
+	var colorPalettes = {
+		morning: { 
+			sky: "rgba(19, 27, 52, 1)",
+			skyLight: "rgba(41, 84, 163, 1)",
+			beach: "", 
+			ocean: "rgba(54, 70, 125, 1)", 
+			oceanLight: "rgba(62, 76, 168, 1)",
+			orb: "rgba(255, 248, 168, 1)",
+			orbLight: "rgba(255, 254, 250, 1)"  
+		},
+		daytime: { 
+			sky: "rgba(0, 153, 230, 1)",
+			skyLight: "rgba(77, 195, 255, 1)",
+			beach: "", 
+			ocean: "rgba(0, 76, 153, 1)", 
+			oceanLight: "rgba(0, 127, 255, 1)",
+			orb: "rgba(255, 248, 168, 1)",
+			orbLight: "rgba(255, 254, 250, 1)"  
+		},
+		evening: { 
+			sky: "rgba(255, 255, 255, 1)", 
+			beach: "", 
+			ocean: "", 
+			orb: "" },
+		night: { 
+			sky: "rgba(19, 27, 52, 1)",
+			skyLight: "rgba(41, 84, 163, 1)",
+			beach: "", 
+			ocean: "rgba(54, 70, 125, 1)", 
+			oceanLight: "rgba(62, 76, 168, 1)",
+			orb: "rgba(255, 248, 168, 1)",
+			orbLight: "rgba(255, 254, 250, 1)",
+			ref: function(alpha) {
+				return "rgba(255, 248, 168, " + alpha + ")"
+			}
+		}
 	}
 
 	var time = "night";
@@ -83,21 +122,32 @@
 			break;
 	}
 
+	// Star globals
 	var sizes = ['micro', 'mini', 'medium', 'big', 'max'],
 	max_bright = 1,
 	min_bright = .4,
 	density = 20,
-	refDensity = 200,
 	starArray = [],
+
+	//Reflection globals
+	refDensity = 300,
+	maxRefs = 300,
+	indirectRefDensity = 800,
+	maxIndirectRefs = 30,
 	refArray = [],
+	inRefArray = [],
+	radToDegrees = Math.PI/180,
+	twoPi = 2 * Math.PI,
 	upDown = 0,
+	static = true,
 	skyGrd;
+
 	var numStars = Math.floor(ctx.canvas.width/density * (ctx.canvas.height/3)/density)
 
 	var anim = new Object();
 	anim.horizon = Math.floor(ctx.canvas.height/3);
 	// Orb coordinates
-	anim.moonX = Math.floor(ctx.canvas.width/2);
+	anim.moonX = Math.floor(ctx.canvas.width - ctx.canvas.width/4);
 	anim.moonY = Math.floor(ctx.canvas.height/6);
 	// Orb size
 	anim.moonR = Math.floor((anim.horizon - anim.horizon/3)/2);
@@ -108,10 +158,16 @@
   	anim.refWidth = Math.floor(2*anim.moonR);
   	anim.refHeight = Math.floor(ctx.canvas.height - anim.horizon);
   	anim.refNumber = Math.floor(anim.refWidth*anim.refHeight/refDensity);
+  	anim.refRespawnRate = Math.floor(anim.refNumber/70);
   	anim.refAngle = 200;
   	anim.refRelX = anim.moonX;
   	anim.refRelY = anim.horizon;
+  	anim.indirectRefNumber = Math.floor((anim.refHeight * ctx.canvas.width)/indirectRefDensity);
+  	anim.indirectRefMargin = Math.floor(ctx.canvas.width/20);
+  	anim.inRefRespawnRate = Math.floor(anim.indirectRefNumber/200);
+  	// Star variables
   	anim.numberOfTwinkles = 20;
+
 	
 	// setup Sky Gradient
 	skyGrd=ctx.createRadialGradient(anim.moonX, anim.moonY, anim.smallerCirc, anim.moonX, anim.moonY, anim.largerCirc);
@@ -124,7 +180,27 @@
 	refGrd.addColorStop(0.5,palette.orb);
 	refGrd.addColorStop(1,palette.oceanLight);
 
+	// Reflection Globals
+	var precalculation = Math.floor(Math.pow(anim.refHeight*2, 3));
 
+	// Timeline Globals
+	var tl = new TimelineMax({paused: true}),
+	duration = .4,
+    ease = Power2.easeOut,
+    scrollTweenDuration = 1;
+
+	var scrollTimeout = null,
+    scrollTimeoutDelay = 20,
+    currentScrollProgress = 0;
+	var maxScroll = Math.max(
+		document.body.scrollHeight, 
+		document.body.offsetHeight, 
+		document.documentElement.clientHeight, 
+		document.documentElement.scrollHeight, 
+		document.documentElement.offsetHeight)
+		 - window.innerHeight;
+
+	//RAF runction calls
 	function animate() {
 		Beach.twinkleStars(anim.numberOfTwinkles);
 		Beach.drawRefs();
@@ -214,65 +290,106 @@
 			ctx.fillStyle = grd;
 	      	ctx.fill();
 	  	},
-	  	generateRef: function() {
-	  		return {
-	  			'x': randomInt(anim.refRelX-anim.refWidth/2,anim.refRelX+anim.refWidth/2 ),
-	  			'y': randomInt(0, anim.refHeight),
+	  	generateRef: function(type) {
+	  		var newRef = {
+	  			'x': (type ? 
+	  				randomInt(anim.refRelX-anim.refWidth/2,anim.refRelX+anim.refWidth/2 ) 
+	  				: randomInt(anim.indirectRefMargin, etx.canvas.width - anim.indirectRefMargin)),
+	  			'y': (type ? 
+	  				randomInt(0, anim.refHeight * 2) 
+	  				: randomInt(anim.indirectRefMargin, anim.refHeight * 2)),
 	  			'alive': false,
 	  			'alpha': 0,
-	  			'r': randomInt(-3, 3)
+	  			'r': randomInt(-3, 3) * radToDegrees,
+	  			'xx': 0,
+	  			'yy': 0,
+	  			'height': 0,
+	  			'width': 0,
+	  			'direct': type
 	  		}
+	  		return Beach.updateRef(newRef);
 	  	},
 	  	initRefs: function() {
-	  		for(var i = 0; i < anim.refNumber; i++) {
-	  			refArray.push(Beach.generateRef());
+	  		var direct;
+	  		// Create direct reflections and indirect reflections
+	  		for(var i = 0, direct = true; i < anim.refNumber && i < maxRefs; i++) {
+	  			refArray.push(Beach.generateRef(direct));
+	  		}
+	  		for(var i = 0, direct = false; i < anim.indirectRefNumber && i < maxIndirectRefs; i++) {
+	  			inRefArray.push(Beach.generateRef(direct));
 	  		}
 	  	},
 	  	drawRefs: function() {
-	  		//etx.fillStyle = refGrd;
-	  		precalculation = Math.floor(Math.pow(anim.refHeight, 3));
-	  		etx.clearRect(0,anim.horizon,etx.canvas.width, etx.canvas.height);
-
+	  		etx.canvas.width = etx.canvas.width;
+	  		//etx.clearRect(0,anim.horizon,etx.canvas.width, etx.canvas.height);
 	  		var i = 0;
 			do {
-
 				refArray[randomInt(0,refArray.length-1)].alive = true;
     			i++;
 			}
-			while (i < 10);
+			while (i < anim.refRespawnRate);
 
-			// Kill some reflections and generate new ones
+			if(randomInt(0,5) > 1) {
+				inRefArray[randomInt(0,inRefArray.length-1)].alive = true;
+			}
 
-	  		
-	  		// Iterate through each 
-			refArray.forEach(function(e) {
-				if(e.alive === true) {
+	  		var refLength = refArray.length;
+	  		var inRefLength = inRefArray.length
+
+	  		// Direct reflection 
+	  		for (i = 0; i < refLength; i++) {
+	  			if(refArray[i].alive === true) {
 					
-					if(e.alpha > 1) {
-						e.alive = false;
+					if(refArray[i].alpha > 1) {
+						refArray[i].alive = false;
 					} else {
-						e.alpha += 0.02;
+						refArray[i].alpha += 0.03;
 					}
 				}
 				else {
-					e.alpha -= 0.02;
+					refArray[i].alpha -= 0.03;
 				}
-				Beach.drawRef(e, precalculation);
-			});
-
+				Beach.drawRef(refArray[i]);
+	  		}
+	  		for (i = 0; i < inRefLength; i++) {
+	  			if(inRefArray[i].alive === true) {
+					
+					if(inRefArray[i].alpha > 1) {
+						inRefArray[i].alive = false;
+					} else {
+						inRefArray[i].alpha += 0.03;
+					}
+				}
+				else if(inRefArray[i].alpha < 0) {
+					inRefArray[i] = Beach.generateRef(false);
+				} else {
+					inRefArray[i].alpha -= 0.03;
+				}
+				Beach.drawRef(inRefArray[i]);
+	  		}
 			etx.clearRect(0,0,etx.canvas.width,anim.horizon)
 	  	},
-	  	drawRef: function(e, precalculation) {
+	  	
+	  	drawRef: function(e) {
 	  		etx.fillStyle = palette.ref(e.alpha);
 	  		etx.beginPath();
-				etx.ellipse(
-					Math.floor((e.x - (e.x - anim.refRelX) * (e.y / anim.refHeight)/1.8)), 
-					anim.refRelY + Math.floor(anim.refHeight * (Math.pow(e.y, 3) / precalculation)) % anim.refHeight,
-      				Math.floor(5 + (7 * (e.y / anim.refRelY))),
-      				Math.floor(1 + (1 * (e.y / anim.refRelY))),
-      				e.r * Math.PI/180, 0, 2 * Math.PI
-    			);
-    			etx.fill();
+	  		if(!static) {
+	  			e = Beach.updateRef(e)
+	  		}
+			etx.ellipse(e.xx, e.yy, e.width, e.height, e.r, 0, twoPi);
+    		etx.fill();
+    	},
+    	updateRef: function(e) {
+    		if(e.direct === false) {
+    			e.xx = e.x;
+    			e.yy = e.y;
+    		} else {
+    			e.xx = Math.floor((e.x - (e.x - anim.refRelX) * (e.y / anim.refHeight/4)));
+    			e.yy = anim.refRelY + Math.floor(anim.refHeight * (Math.pow(e.y, 3) / precalculation)) % anim.refHeight;
+    		}
+    		e.width = Math.floor(4 + (3 * (e.yy / anim.refRelY)));
+   			e.height = Math.floor(1 + (1 * (e.yy / anim.refRelY)/4));
+    		return e;
     	},
 	  	generateStars: function(starsCount, opacity) {
 			for(var i = 0; i < numStars; i++) {
@@ -303,13 +420,13 @@
 					radius = 0.6;
 					break;
 				case 'mini':
-					radius = 0.8;
+					radius = 1;
 					break;
 				case 'medium':
-					radius = 1.3;
+					radius = 1.4;
 					break;
 				case 'big':
-					radius = 1.4;
+					radius = 1.6;
 					break;
 				case 'max':
 					radius = 2.0;
@@ -323,12 +440,12 @@
 			//ctx.fillRect(x - radius - 1, y - radius - 1, radius * 2 + 2, radius * 2 + 2);
 	
 			dtx.beginPath();
-			dtx.arc(x,y + upDown,radius+0.1,0,2*Math.PI);
+			dtx.arc(x,y + upDown,radius+0.1,0,twoPi);
 			dtx.fillStyle = skyGrd;
 			dtx.fill();
 	
 			dtx.beginPath();
-			dtx.arc(x,y + upDown,radius,0,2*Math.PI);
+			dtx.arc(x,y + upDown,radius,0,twoPi);
 			dtx.fillStyle = strGrd;
 			dtx.fill();
 	  	},
@@ -380,8 +497,32 @@
 			val -= 0.2;
 		return parseFloat(val.toFixed(1));
 	}
+
+	//jQuery listeners and Timeline tweening
+	function listenToScrollEvent() {
+    	(window.addEventListener) ? window.addEventListener('scroll', debounceScroll, false) : window.attachEvent('onscroll', debounceScroll);
+	}
+
+	function debounceScroll() {
+    	clearTimeout(scrollTimeout);
+    	scrollTimeout = setTimeout(onScroll, scrollTimeoutDelay);
+	}
+
+	function onScroll() {
+    	currentScrollProgress = roundDecimal(window.scrollY / maxScroll, 4);
+    	console.log(currentScrollProgress)
+    	//timeline.progress(currentScrollProgress); // either directly set the [progress] of the timeline which may produce a rather jumpy result
+    	TweenMax.to(tl, scrollTweenDuration, {
+    	    progress: currentScrollProgress,
+    	    ease: ease
+    	}); // or tween the [timeline] itself to produce a transition from one state to another i.e. it looks smooth
+	}
+
+	function roundDecimal(value, place) {
+    	return Math.round(value * Math.pow(10, place)) / Math.pow(10, place);
+	}
 	
-	// Performance
+	// Performance tracker
 	window.countFPS = (function () {
   		var lastLoop = (new Date()).getMilliseconds();
   		var count = 1;
@@ -408,6 +549,9 @@
 	Beach.drawRefs();
 	Beach.drawOrb();
 	Beach.drawOcean();
+	listenToScrollEvent();
+	onScroll();
+
 	animate();
 
 })();
