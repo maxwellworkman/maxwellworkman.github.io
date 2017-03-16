@@ -34,7 +34,7 @@
 	var $out = $('#out');
 
 	// Colors for transitions
-/*	var colorPalettes = {
+/*	var colors = {
 		morning: { 
 			sky: "hsl(226, 47%, 14%)",
 			skyLight: "hsl(219, 60%, 40%)",
@@ -67,34 +67,44 @@
 			}
 		}
 	}*/
-	var colorPalettes = {
+	var palette;
+	var colors = {
 		morning: { 
 			sky: "rgba(19, 27, 52, 1)",
 			skyLight: "rgba(41, 84, 163, 1)",
-			beach: "", 
 			ocean: "rgba(54, 70, 125, 1)", 
 			oceanLight: "rgba(62, 76, 168, 1)",
 			orb: "rgba(255, 248, 168, 1)",
-			orbLight: "rgba(255, 254, 250, 1)"  
+			orbLight: "rgba(255, 254, 250, 1)",
+			ref: function(alpha) {
+				return "rgba(255, 248, 168, " + alpha + ")"
+			}
 		},
 		daytime: { 
 			sky: "rgba(0, 153, 230, 1)",
 			skyLight: "rgba(77, 195, 255, 1)",
-			beach: "", 
-			ocean: "rgba(0, 76, 153, 1)", 
-			oceanLight: "rgba(0, 127, 255, 1)",
-			orb: "rgba(255, 248, 168, 1)",
-			orbLight: "rgba(255, 254, 250, 1)"  
+			ocean: "rgba(40, 114, 189, 1)", 
+			oceanLight: "rgba(76, 177, 255, 1)",
+			orb: "rgba(250, 214, 121, 1)",
+			orbLight: "rgba(255, 254, 250, 1)",
+			ref: function(alpha) {
+				return "rgba(255, 248, 168, " + alpha + ")"
+			}  
 		},
 		evening: { 
-			sky: "rgba(255, 255, 255, 1)", 
-			beach: "", 
-			ocean: "", 
-			orb: "" },
+			sky: "rgba(255, 255, 255, 1)",
+			skyLight: "rgba(77, 195, 255, 1)",
+			ocean: "rgba(40, 114, 189, 1)",
+			oceanLight: "rgba(76, 177, 255, 1)",
+			orb: "rgba(250, 214, 121, 1)",
+			orbLight: "rgba(255, 254, 250, 1)",
+			ref: function(alpha) {
+				return "rgba(255, 248, 168, " + alpha + ")"
+			}
+		},
 		night: { 
 			sky: "rgba(19, 27, 52, 1)",
 			skyLight: "rgba(41, 84, 163, 1)",
-			beach: "", 
 			ocean: "rgba(54, 70, 125, 1)", 
 			oceanLight: "rgba(62, 76, 168, 1)",
 			orb: "rgba(255, 248, 168, 1)",
@@ -105,20 +115,20 @@
 		}
 	}
 
-	var time = "night";
+	var time = "morning";
 
 	switch(time) {
 		case "morning":
-			var palette = colorPalettes.morning;
+			var palette = colors.morning;
 			break;
 		case "daytime":
-			var palette = colorPalettes.daytime;
+			var palette = colors.daytime;
 			break;
 		case "evening":
-			var palette = colorPalettes.evening;
+			var palette = colors.evening;
 			break;
 		case "night":
-			var palette = colorPalettes.night;
+			var palette = colors.night;
 			break;
 	}
 
@@ -190,7 +200,7 @@
     scrollTweenDuration = 1;
 
 	var scrollTimeout = null,
-    scrollTimeoutDelay = 20,
+    scrollTimeoutDelay = 10,
     currentScrollProgress = 0;
 	var maxScroll = Math.max(
 		document.body.scrollHeight, 
@@ -202,6 +212,7 @@
 
 	//RAF runction calls
 	function animate() {
+		Beach.drawSky();
 		Beach.twinkleStars(anim.numberOfTwinkles);
 		Beach.drawRefs();
 		window.requestAnimationFrame(function() {
@@ -212,41 +223,6 @@
 
 
 	Beach = {
-	  	init: function() {
-	  		/*
-	  		c = document.getElementById("timebeach");
-	  		ctx = c.getContext("2d");
-	  		ctx.canvas.width  = window.innerWidth;
-	  		ctx.canvas.height = window.innerHeight;
-	  		initializeCoords();
-	  		// Stars
-	  		var density = 15;
-	  		numStars = Math.floor(ctx.canvas.width/density * (ctx.canvas.height/3)/density);
-	  		var starArray = [];
-	  		// Sky gradient for drawing stars
-	  		skyGrd=ctx.createRadialGradient(anim.moonX, anim.moonY, anim.smallerCirc, anim.moonX, anim.moonY, anim.largerCirc);
-			skyGrd.addColorStop(0,palette.skyLight);
-			skyGrd.addColorStop(1,palette.sky);
-			*/
-
-			// Setup environment
-			/*
-			c = document.getElementById("timebeach");
-			ctx = c.getContext("2d");
-			ctx.canvas.width  = window.innerWidth;
-			ctx.canvas.height = window.innerHeight;
-			var anim = new Object(),
-			numStars = 0,
-			sizes = ['micro', 'mini', 'medium', 'big', 'max'],
-			max_bright = 1,
-			min_bright = .4,
-			density = 50,
-			starArray = [],
-			upDown = 0,
-			skyGrd;
-			*/
-	
-	  	},
 	  	initializeCoords: function() {
 			anim.horizon = ctx.canvas.height/3;
 			// Orb coordinates
@@ -266,6 +242,7 @@
 			grd.addColorStop(1,palette.sky);
 			ctx.fillStyle=grd;
 			ctx.fillRect(0,0,ctx.canvas.width, anim.horizon);
+			debugger;
 	  	},
 	  	drawOcean: function() {
 	  		var grd = ctx.createLinearGradient(ctx.canvas.width/2, (ctx.canvas.height/2)-1, ctx.canvas.width/2, ctx.canvas.height);
@@ -459,6 +436,25 @@
 			} while(newAlpha < min_bright || newAlpha > max_bright)
 			starArray[id] = Beach.createStar(obj.x, obj.y, obj.size, newAlpha);
 			}
+	  	},
+	  	initBackgroundTweens: function() {
+	  		for (var i in colors) {
+	  			if(i !== "morning") {
+	  				tl.add(TweenMax.to(palette, 6, {
+	  					colorProps:{
+	  						sky: colors[i].sky, 
+	  						skyLight: colors[i].skyLight,
+	  						ocean: colors[i].ocean, 
+	  						oceanLight: colors[i].oceanLight,
+	  						orb: colors[i].orb,
+	  						orbLight: colors[i].orbLight
+	  					}, 
+	  				ease:Linear.easeNone
+	  			}));
+	  			}
+
+	  		}
+	  		debugger;
 	  	}
 	}
 
@@ -514,12 +510,16 @@
     	//timeline.progress(currentScrollProgress); // either directly set the [progress] of the timeline which may produce a rather jumpy result
     	TweenMax.to(tl, scrollTweenDuration, {
     	    progress: currentScrollProgress,
-    	    ease: ease
+    	    ease: ease,
+    	    onComplete: tellMe
     	}); // or tween the [timeline] itself to produce a transition from one state to another i.e. it looks smooth
 	}
 
 	function roundDecimal(value, place) {
     	return Math.round(value * Math.pow(10, place)) / Math.pow(10, place);
+	}
+	function tellMe() {
+		console.log("createdTween");
 	}
 	
 	// Performance tracker
@@ -541,8 +541,13 @@
   		};
 	}());
 
+	function drawBackground() {
+		Beach.drawSky();
+		Beach.drawOrb();
+		Beach.drawOcean();
+	}
+
 	
-	Beach.init();
 	Beach.drawSky();
 	Beach.generateStars(numStars, 0.5);
 	Beach.initRefs();
@@ -551,6 +556,7 @@
 	Beach.drawOcean();
 	listenToScrollEvent();
 	onScroll();
+	Beach.initBackgroundTweens();
 
 	animate();
 
