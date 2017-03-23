@@ -57,7 +57,7 @@
 			sky: "rgb(103, 153, 222)",
 			skyLight: "rgb(122, 169, 234)",
 			ocean: "rgba(54, 70, 125, 1)", 
-			oceanLight: "rgba(62, 76, 168, 1)",
+			oceanLight: "rgb(121, 119, 222)",
 			orb: "rgba(255, 248, 168, 1)",
 			orbLight: "rgba(255, 254, 250, 1)",
 			ref: function(alpha) {
@@ -76,12 +76,12 @@
 			}  
 		},
 		evening: { 
-			sky: "rgb(214, 47, 102)",
+			sky: "rgb(234, 102, 126)",
 			skyLight: "rgb(229, 81, 61)",
 			ocean: "rgb(191, 63, 108)",
 			oceanLight: "rgb(209, 92, 119)",
-			orb: "rgba(250, 214, 121, 1)",
-			orbLight: "rgba(255, 254, 250, 1)",
+			orb: "rgb(252, 189, 94)",
+			orbLight: "rgb(255, 220, 168)",
 			ref: function(alpha) {
 				return "rgba(255, 248, 168, " + alpha + ")"
 			}
@@ -133,7 +133,7 @@
 	var anim = new Object();
 	anim.horizon = Math.floor(ctx.canvas.height/3);
 	// Orb coordinates
-	anim.moonX = Math.floor(ctx.canvas.width - ctx.canvas.width/4);
+	anim.moonX = Math.floor(ctx.canvas.width/2);
 	anim.moonY = Math.floor(ctx.canvas.height/6);
 	anim.moonR = Math.floor((anim.horizon - anim.horizon/3)/2);
 	anim.moonRollover = ctx.canvas.height;
@@ -172,8 +172,8 @@
 	// Timeline Globals
 	var tl = new TimelineMax({paused: true}),
 	duration = 2,
-    ease = Power3.easeOut,
-    scrollTweenDuration = 0.4;
+    ease = Power2.easeOut,
+    scrollTweenDuration = 0.1;
 
 	var scrollTimeout = null,
     scrollTimeoutDelay = 10,
@@ -188,9 +188,10 @@
 
 	//RAF runction calls
 	function animate() {
-		Beach.twinkleStars(anim.numberOfTwinkles);
 		if(static === false) {
 			drawBackground()
+		} else {
+			Beach.twinkleStars(anim.numberOfTwinkles);
 		}
 		Beach.drawRefs();
 		static = true;
@@ -216,7 +217,7 @@
 	  	drawSky: function() {
 	  		var smallerCirc = ctx.canvas.width/50;
 	  		var largerCirc = ctx.canvas.width-ctx.canvas.width/1.6;
-	  		var grd=ctx.createRadialGradient(anim.moonX, anim.moonY + upDown, anim.smallerCirc, anim.moonX, anim.moonY + upDown, anim.largerCirc);
+	  		var grd=ctx.createRadialGradient(anim.moonX, moonYY, anim.smallerCirc, anim.moonX, moonYY, anim.largerCirc);
 			grd.addColorStop(0,palette.skyLight);
 			grd.addColorStop(1,palette.sky);
 			ctx.fillStyle=grd;
@@ -354,12 +355,12 @@
 	  	generateStars: function(starsCount, opacity) {
 			for(var i = 0; i < numStars; i++) {
 				var x = randomInt(2, ctx.canvas.width-2),
-					y = randomInt(2, anim.horizon*1.3),
+					y = randomInt(-anim.horizon/2, anim.horizon),
 					size = sizes[randomInt(0, sizes.length-1)];
 	
 				// make sure the points don't collide with orb + 10
 				var distanceFromOrb = Math.floor(Math.sqrt((x-anim.moonX)*(x-anim.moonX)+(y-anim.moonY)*(y-anim.moonY)));
-				if(distanceFromOrb>(anim.moonR + 10) && (y < anim.horizon - 10 || y < anim.horizon + 5)) {
+				if(distanceFromOrb>(anim.moonR + 10) && (y < anim.horizon - 10 || y > anim.horizon + 5)) {
 					starArray.push(Beach.createStar(x, y, size, opacity));
 				}
 			}
@@ -399,13 +400,15 @@
 			//ctx.fillStyle = skyGrd;
 			//ctx.fillRect(x - radius - 1, y - radius - 1, radius * 2 + 2, radius * 2 + 2);
 	
-			dtx.beginPath();
-			dtx.arc(x,y - upDown,radius+0.1,0,twoPi);
+			/*dtx.beginPath();
+			dtx.arc(x,y,radius+0.1,0,twoPi);
 			dtx.fillStyle = skyGrd;
-			dtx.fill();
+			dtx.fill();*/
+
+			dtx.clearRect(x,y,x+radius,y+radius)
 	
 			dtx.beginPath();
-			dtx.arc(x,y - upDown,radius,0,twoPi);
+			dtx.arc(x,y,radius,0,twoPi);
 			dtx.fillStyle = strGrd;
 			dtx.fill();
 	  	},
@@ -422,7 +425,7 @@
 	  	},
 	  	initBackgroundTweens: function() {
 	  		for (var i in colors) {
-	  			tl.add(TweenLite.to(palette, 1, {
+	  			tl.to(palette, 1, {
 	  				colorProps:{
 	  					sky: colors[i].sky, 
 	  					skyLight: colors[i].skyLight,
@@ -432,8 +435,11 @@
 	  					orbLight: colors[i].orbLight
 	  				},
 	  				ease:Linear.easeNone
-	  			}));
+	  			},
+	  			""+ i
+	  			);
 	  		}
+	  		tl.to(d, 3, {top: 3.5*anim.moonY, ease: Linear.easeOut}, "night")
 	  	}
 	}
 
