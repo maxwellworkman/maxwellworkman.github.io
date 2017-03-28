@@ -329,7 +329,6 @@
 	  		}
 			etx.clearRect(0,0,etx.canvas.width,anim.horizon)
 	  	},
-	  	
 	  	drawRef: function(e) {
 	  		etx.fillStyle = palette.ref(e.alpha);
 	  		etx.beginPath();
@@ -362,6 +361,7 @@
 				var distanceFromOrb = Math.floor(Math.sqrt((x-anim.moonX)*(x-anim.moonX)+(y-anim.moonY)*(y-anim.moonY)));
 				if(distanceFromOrb>(anim.moonR + 10) && (y < anim.horizon - 10 || y > anim.horizon + 5)) {
 					starArray.push(Beach.createStar(x, y, size, opacity));
+					console.log(y);
 				}
 			}
 	  	},
@@ -397,15 +397,8 @@
 			strGrd = dtx.createRadialGradient(x, y, 0, x + radius, y + radius, radius * 2);
 			strGrd.addColorStop(0, 'rgba(255, 255, 255, ' + alpha + ')');
 			strGrd.addColorStop(1, 'rgba(0, 0, 0, 0)');
-			//ctx.fillStyle = skyGrd;
-			//ctx.fillRect(x - radius - 1, y - radius - 1, radius * 2 + 2, radius * 2 + 2);
-	
-			/*dtx.beginPath();
-			dtx.arc(x,y,radius+0.1,0,twoPi);
 			dtx.fillStyle = skyGrd;
-			dtx.fill();*/
-
-			dtx.clearRect(x,y,x+radius,y+radius)
+			dtx.fillRect(x - radius - 1, y - radius - 1, radius * 2 + 2, radius * 2 + 2);
 	
 			dtx.beginPath();
 			dtx.arc(x,y,radius,0,twoPi);
