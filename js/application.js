@@ -1,259 +1,556 @@
-$(document).ready(function() {
-
-  drumsListener();
-  var queue = [];
-  soundsListener(queue);
-  bassListener();
-
-  bassAudio_1_1 = $( "#bass_1_1" ).get(0);
-  window.bass_1_1 = function() {
-    bassAudio_1_1.currentTime = 0;
-    bassAudio_1_1.play();
-  }
-
-  bassAudio_1_2 = $( "#bass_1_2" ).get(0);
-  window.bass_1_2 = function() {
-    bassAudio_1_2.currentTime = 0;
-    bassAudio_1_2.play();
-  }
-
-  bassAudio_1_3 = $( "#bass_1_3" ).get(0);
-  window.bass_1_3 = function() {
-    bassAudio_1_3.currentTime = 0;
-    bassAudio_1_3.play();
-  }
-
-  bassAudio_1_4 = $( "#bass_1_4" ).get(0);
-  window.bass_1_4 = function() {
-    bassAudio_1_4.currentTime = 0;
-    bassAudio_1_4.play();
-  }
-
-  bassAudio_1_5 = $( "#bass_1_5" ).get(0);
-  window.bass_1_5 = function() {
-    bassAudio_1_5.currentTime = 0;
-    bassAudio_1_5.play();
-  }
-
-  bassAudio_1_6 = $( "#bass_1_6" ).get(0);
-  window.bass_1_6 = function() {
-    bassAudio_1_6.currentTime = 0;
-    bassAudio_1_6.play();
-  }
-
-  bassAudio_1_7 = $( "#bass_1_7" ).get(0);
-  window.bass_1_7 = function() {
-    bassAudio_1_7.currentTime = 0;
-    bassAudio_1_7.play();
-  }
-
-  bassAudio_1_8 = $( "#bass_1_8" ).get(0);
-  window.bass_1_8 = function() {
-    bassAudio_1_8.currentTime = 0;
-    bassAudio_1_8.play();
-  }
-  bassAudio_1_9 = $( "#bass_1_9" ).get(0);
-  bassAudio_1_9_path = $( "#bass_1_9" );
-  window.bass_1_9 = function() {
-    bassAudio_1_9.currentTime = 0;
-    bassAudio_1_9.play();
-  }
-  bassAudio_1_10 = $( "#bass_1_10" ).get(0);
-  bassAudio_1_10_path = ( "#bass_1_10" );
-  window.bass_1_10 = function() {
-    bassAudio_1_10.currentTime = 0;
-    bassAudio_1_10.play();
-  }
-  soundsAudio_1_1 = $( "#sounds_1_1" ).get(0);
-  window.sounds_1_1 = function() {
-    soundsAudio_1_1.currentTime = 0;
-    soundsAudio_1_1.play();
-  }
-  soundsAudio_1_2 = $( "#sounds_1_2" ).get(0);
-  window.sounds_1_2 = function() {
-    soundsAudio_1_2.currentTime = 0;
-    soundsAudio_1_2.play();
-  }
-  soundsAudio_1_3 = $( "#sounds_1_3" ).get(0);
-  window.sounds_1_3 = function() {
-    soundsAudio_1_3.currentTime = 0;
-    soundsAudio_1_3.play();
-  }
-  soundsAudio_1_4 = $( "#sounds_1_4" ).get(0);
-  window.sounds_1_4 = function() {
-    soundsAudio_1_4.currentTime = 0;
-    soundsAudio_1_4.play();
-  }
-  soundsAudio_1_5 = $( "#sounds_1_5" ).get(0);
-  window.sounds_1_5 = function() {
-    soundsAudio_1_5.currentTime = 0;
-    soundsAudio_1_5.play();
-  }
-  soundsAudio_1_6 = $( "#sounds_1_6" ).get(0);
-  window.sounds_1_6 = function() {
-    soundsAudio_1_6.currentTime = 0;
-    soundsAudio_1_6.play();
-  }
-  soundsAudio_1_7 = $( "#sounds_1_7" ).get(0);
-  window.sounds_1_7 = function() {
-    soundsAudio_1_7.currentTime = 0;
-    soundsAudio_1_7.play();
-  }
-  soundsAudio_1_8 = $( "#sounds_1_8" ).get(0);
-  window.sounds_1_8 = function() {
-    soundsAudio_1_8.currentTime = 0;
-    soundsAudio_1_8.play();
-  }
-  soundsAudio_1_9 = $( "#sounds_1_9" ).get(0);
-  window.sounds_1_9 = function() {
-    soundsAudio_1_9.currentTime = 0;
-    soundsAudio_1_9.play();
-  }
-  soundsAudio_1_10 = $( "#sounds_1_10" ).get(0);
-  window.sounds_1_10 = function() {
-    soundsAudio_1_10.currentTime = 0;
-    soundsAudio_1_10.play();
-  }
-  soundsAudio_1_11 = $( "#sounds_1_11" ).get(0);
-  window.sounds_1_11 = function() {
-    soundsAudio_1_11.currentTime = 0;
-    soundsAudio_1_11.play();
-  }
-  soundsAudio_1_12 = $( "#sounds_1_12" ).get(0);
-  window.sounds_1_12 = function() {
-    soundsAudio_1_12.currentTime = 0;
-    soundsAudio_1_12.play();
-  }
-  soundsAudio_1_13 = $( "#sounds_1_13" ).get(0);
-  window.sounds_1_13 = function() {
-    soundsAudio_1_13.currentTime = 0;
-    soundsAudio_1_13.play();
-  }
-  soundsAudio_1_14 = $( "#sounds_1_14" ).get(0);
-  window.sounds_1_14 = function() {
-    soundsAudio_1_14.currentTime = 0;
-    soundsAudio_1_14.play();
-  }
-  soundsAudio_1_15 = $( "#sounds_1_15" ).get(0);
-  window.sounds_1_15 = function() {
-    soundsAudio_1_15.currentTime = 0;
-    soundsAudio_1_15.play();
-  }
-  drumsAudio_1_1 = $( "#drums_1_1" ).get(0);
-  window.drums_1_1 = function() {
-    drumsAudio_1_1.currentTime = 0;
-    drumsAudio_1_1.play();
-  }
-  drumsAudio_1_2 = $( "#drums_1_2" ).get(0);
-  window.drums_1_2 = function() {
-    drumsAudio_1_2.currentTime = 0;
-    drumsAudio_1_2.play();
-  }
-  drumsAudio_1_3 = $( "#drums_1_3" ).get(0);
-  window.drums_1_3 = function() {
-    drumsAudio_1_3.currentTime = 0;
-    drumsAudio_1_3.play();
-  }
-  drumsAudio_1_4 = $( "#drums_1_4" ).get(0);
-  window.drums_1_4 = function() {
-    drumsAudio_1_4.currentTime = 0;
-    drumsAudio_1_4.play();
-  }
-  drumsAudio_1_5 = $( "#drums_1_5" ).get(0);
-  window.drums_1_5 = function() {
-    drumsAudio_1_5.currentTime = 0;
-    drumsAudio_1_5.play();
-  }
-  drumsAudio_1_6 = $( "#drums_1_6" ).get(0);
-  window.drums_1_6 = function() {
-    drumsAudio_1_6.currentTime = 0;
-    drumsAudio_1_6.play();
-  }
-  drumsAudio_1_7 = $( "#drums_1_7" ).get(0);
-  window.drums_1_7 = function() {
-    drumsAudio_1_7.currentTime = 0;
-    drumsAudio_1_7.play();
-  }
-  drumsAudio_1_8 = $( "#drums_1_8" ).get(0);
-  window.drums_1_8 = function() {
-    drumsAudio_1_8.currentTime = 0;
-    drumsAudio_1_8.play();
-  }
-  drumsAudio_1_9 = $( "#drums_1_9" ).get(0);
-  window.drums_1_9 = function() {
-    drumsAudio_1_9.currentTime = 0;
-    drumsAudio_1_9.play();
-  }
-  drumsAudio_1_10 = $( "#drums_1_10" ).get(0);
-  window.drums_1_10 = function() {
-    drumsAudio_1_10.currentTime = 0;
-    drumsAudio_1_10.play();
-  }
-
-  cells = $(".cell")
-
-  function sequencer() {
-    cells.each(function() {
-      if ($(this).hasClass( "active" )) {
-        targetSound = ($(this).attr('targetSound'));
-        fn = window[targetSound];
-        if (typeof fn === "function") {
-          fn();
-        }
-      }
-    })
-  }
-
-  bar = $("#myBar");
-  var width = 1;
-  function timeBar() {
-    if (width >= 100) {
-        width = 1;
-    } else {
-        width+= 0.5;
-        bar.width(width + '%');
-    }
-  }
-
-
-  window.setInterval(sequencer, 4370);
-  window.setInterval(timeBar, 22.1);
-});
 
 
 
-var drumsListener = function() {$( ".grid" ).on("click", ".drums", function() {
-    var previousActive = $(this).parent().parent().find('.drums.active')
-    if (previousActive.attr("class") != $(this).attr("class")) {
-      previousActive.toggleClass("active");
-      $(this).toggleClass("active");
-    } else {
-      $(this).toggleClass("active");
-    }
-  })
-}
+// Plan on changing these for animations
 
-var soundsListener = function(queue) {$( ".grid" ).on("click", ".sounds", function() {
-    if ($(this).hasClass("active")== false) {
-      queue.push($(this));
-      if (queue.length > 4) {
-        queue.shift().toggleClass("active");
-      }
-    }
-    $(this).toggleClass("active");
-  })
-}
 
-var bassListener = function() {$( ".grid" ).on("click", ".bass", function() {
-    var previousActive = $(this).parent().parent().find('.bass.active')
-    if (previousActive.attr("class") != $(this).attr("class")) {
-      previousActive.toggleClass("active");
-      $(this).toggleClass("active");
-    } else {
-      $(this).toggleClass("active");
-    }
-  })
-}
+// HSL Colors go here to decrease calculations
+
+
+// Time zone determination
+
+
+
+
+
+(function() {
+	//setup canvases
+	b = document.getElementById("water");
+	btx = b.getContext("2d");
+	btx.canvas.width  = window.innerWidth;
+	btx.canvas.height = window.innerHeight;
+
+	c = document.getElementById("sky");
+	ctx = c.getContext("2d");
+	ctx.canvas.width  = window.innerWidth;
+	ctx.canvas.height = window.innerHeight;
+
+	d = document.getElementById("stars");
+	dtx = d.getContext("2d");
+	dtx.canvas.width  = window.innerWidth;
+	dtx.canvas.height = window.innerHeight;
+
+	e = document.getElementById("sparkles");
+	etx = e.getContext("2d");
+	etx.canvas.width  = window.innerWidth;
+	etx.canvas.height = window.innerHeight;
+
+	// Performance calculation
+	var $out = $('#out');
+
+	// Colors for transitions
+
+	var palette;
+	var colors = {
+		night: { 
+			sky: "rgba(19, 27, 52, 1)",
+			skyLight: "rgba(41, 84, 163, 1)",
+			ocean: "rgb(41, 43, 91)", 
+			oceanLight: "rgb(55, 60, 158)",
+			orb: "rgba(255, 248, 168, 1)",
+			orbLight: "rgba(255, 254, 250, 1)",
+			ref: function(alpha) {
+				return "rgba(255, 248, 168, " + alpha + ")"
+			}
+		},
+		morning: { 
+			sky: "rgb(103, 153, 222)",
+			skyLight: "rgb(122, 169, 234)",
+			ocean: "rgba(54, 70, 125, 1)", 
+			oceanLight: "rgb(121, 119, 222)",
+			orb: "rgba(255, 248, 168, 1)",
+			orbLight: "rgba(255, 254, 250, 1)",
+			ref: function(alpha) {
+				return "rgba(255, 248, 168, " + alpha + ")"
+			}
+		},
+		daytime: { 
+			sky: "rgba(0, 153, 230, 1)",
+			skyLight: "rgba(77, 195, 255, 1)",
+			ocean: "rgba(40, 114, 189, 1)", 
+			oceanLight: "rgba(76, 177, 255, 1)",
+			orb: "rgba(250, 214, 121, 1)",
+			orbLight: "rgba(255, 254, 250, 1)",
+			ref: function(alpha) {
+				return "rgba(255, 248, 168, " + alpha + ")"
+			}  
+		},
+		evening: { 
+			sky: "rgb(234, 102, 126)",
+			skyLight: "rgb(229, 81, 61)",
+			ocean: "rgb(191, 63, 108)",
+			oceanLight: "rgb(209, 92, 119)",
+			orb: "rgb(252, 189, 94)",
+			orbLight: "rgb(255, 220, 168)",
+			ref: function(alpha) {
+				return "rgba(255, 248, 168, " + alpha + ")"
+			}
+		}
+	}
+
+	var time = "night";
+
+	switch(time) {
+		case "morning":
+			var palette = colors.morning;
+			break;
+		case "daytime":
+			var palette = colors.daytime;
+			break;
+		case "evening":
+			var palette = colors.evening;
+			break;
+		case "night":
+			var palette = colors.night;
+			break;
+	}
+
+	// Star globals
+	var sizes = ['micro', 'mini', 'medium', 'big', 'max'],
+	max_bright = 1,
+	min_bright = .4,
+	density = 20,
+	starArray = [],
+	starImage = null,
+
+	//Reflection globals
+	refDensity = 300,
+	maxRefs = 300,
+	indirectRefDensity = 800,
+	maxIndirectRefs = 30,
+	refArray = [],
+	inRefArray = [],
+	radToDegrees = Math.PI/180,
+	twoPi = 2 * Math.PI,
+	upDown = 0,
+	static = true,
+	skyGrd;
+
+	var numStars = Math.floor(ctx.canvas.width/density * (ctx.canvas.height/3)/density)
+	var starOffset = parseInt($("#stars").css("Top"))
+
+	var anim = new Object();
+	anim.horizon = Math.floor(ctx.canvas.height/3);
+	// Orb coordinates
+	anim.moonX = Math.floor(ctx.canvas.width/2);
+	anim.moonY = Math.floor(ctx.canvas.height/6);
+	anim.moonYY = anim.moonY;
+	anim.moonUpDown = -2*anim.moonY;
+	anim.moonR = Math.floor((anim.horizon - anim.horizon/3)/2);
+	anim.moonRollover = ctx.canvas.height;
+	// Shine gradient radius
+	anim.smallerCirc = Math.floor(ctx.canvas.width/50);
+  	anim.largerCirc = Math.floor(ctx.canvas.width-ctx.canvas.width/2);
+  	// Reflection variables
+  	anim.refWidth = Math.floor(2*anim.moonR);
+  	anim.refHeight = Math.floor(ctx.canvas.height - anim.horizon);
+  	anim.refNumber = Math.floor(anim.refWidth*anim.refHeight/refDensity);
+  	anim.refRespawnRate = Math.floor(anim.refNumber/70);
+  	anim.refAngle = 200;
+  	anim.refRelX = anim.moonX;
+  	anim.refRelY = anim.horizon;
+  	anim.indirectRefNumber = Math.floor((anim.refHeight * ctx.canvas.width)/indirectRefDensity);
+  	anim.indirectRefMargin = Math.floor(ctx.canvas.width/20);
+  	anim.inRefRespawnRate = Math.floor(anim.indirectRefNumber/200);
+  	// Star variables
+  	anim.numberOfTwinkles = 20;
+
+	
+	// setup Sky Gradient
+	skyGrd=ctx.createRadialGradient(anim.moonX, anim.moonYY, anim.smallerCirc, anim.moonX, anim.moonYY, anim.largerCirc);
+	skyGrd.addColorStop(0,palette.skyLight);
+	skyGrd.addColorStop(1,palette.sky);
+
+	// setup Reflection gradient
+	var refGrd = etx.createLinearGradient(anim.moonX-anim.refWidth/2, 0, anim.moonX+anim.refWidth/2, 0);
+	refGrd.addColorStop(0,palette.oceanLight);
+	refGrd.addColorStop(0.5,palette.orb);
+	refGrd.addColorStop(1,palette.oceanLight);
+
+	// Reflection Globals
+	var precalculation = Math.floor(Math.pow(anim.refHeight*2, 3));
+
+	// Timeline Globals
+	var tl = new TimelineMax({paused: true}),
+	duration = 2,
+    ease = Power2.easeOut,
+    scrollTweenDuration = 0.1;
+
+	var scrollTimeout = null,
+    scrollTimeoutDelay = 10,
+    currentScrollProgress = 0;
+	var maxScroll = Math.max(
+		document.body.scrollHeight, 
+		document.body.offsetHeight, 
+		document.documentElement.clientHeight, 
+		document.documentElement.scrollHeight, 
+		document.documentElement.offsetHeight)
+		 - window.innerHeight;
+
+	//RAF runction calls
+	function animate() {
+		if(static === false) {
+			drawBackground()
+		} else {
+			Beach.twinkleStars(anim.numberOfTwinkles);
+		}
+		Beach.drawRefs();
+		static = true;
+		window.requestAnimationFrame(function() {
+			$out.html(countFPS());
+			animate();
+		});
+	}
+
+
+	Beach = {
+	  	initializeCoords: function() {
+			anim.horizon = ctx.canvas.height/3;
+			// Orb coordinates
+			anim.moonX = ctx.canvas.width/2;
+			anim.moonY = ctx.canvas.height/6;
+			// Orb size
+			anim.moonR = (anim.horizon - anim.horizon/3)/2;
+			// Shine gradient radius
+			anim.smallerCirc = ctx.canvas.width/50;
+  			anim.largerCirc = ctx.canvas.width-ctx.canvas.width/2;
+	  	},
+	  	drawSky: function() {
+	  		var smallerCirc = ctx.canvas.width/50;
+	  		var largerCirc = ctx.canvas.width-ctx.canvas.width/1.6;
+	  		var grd=ctx.createRadialGradient(anim.moonX, anim.moonYY, anim.smallerCirc, anim.moonX, anim.moonYY, anim.largerCirc);
+			grd.addColorStop(0,palette.skyLight);
+			grd.addColorStop(1,palette.sky);
+			ctx.fillStyle=grd;
+			ctx.fillRect(0,0,ctx.canvas.width, anim.horizon);
+	  	},
+	  	drawOcean: function() {
+	  		var grd = btx.createLinearGradient(0, anim.horizon, 0, btx.canvas.height);
+	  		grd.addColorStop(0, palette.oceanLight);
+	  		grd.addColorStop(1, palette.ocean);
+	  		btx.fillStyle = grd;
+	  		btx.fillRect(0, anim.horizon-1, ctx.canvas.width, ctx.canvas.height)
+	  	},
+	  	drawOrb: function() {
+	  		anim.moonYY = anim.moonUpDown + 3*anim.moonY;
+	  		ctx.beginPath();
+	      	ctx.arc(anim.moonX, anim.moonYY, anim.moonR, 0, 2 * Math.PI, false);
+	      	var grd = ctx.createRadialGradient(
+	      		anim.moonX + anim.moonR/2, 
+	      		anim.moonYY - anim.moonR/2, 
+	      		anim.smallerCirc, 
+	      		anim.moonX + anim.moonR/2, 
+	      		anim.moonYY - anim.moonR/2, 
+	      		anim.moonR * 1.3
+	      	);
+			grd.addColorStop(0,palette.orbLight);
+			grd.addColorStop(1,palette.orb);
+			ctx.fillStyle = grd;
+	      	ctx.fill();
+	  	},
+	  	generateRef: function(type) {
+	  		var newRef = {
+	  			'x': (type ? 
+	  				randomInt(anim.refRelX-anim.refWidth/2,anim.refRelX+anim.refWidth/2 ) 
+	  				: randomInt(anim.indirectRefMargin, etx.canvas.width - anim.indirectRefMargin)),
+	  			'y': (type ? 
+	  				randomInt(0, anim.refHeight * 2) 
+	  				: randomInt(0, anim.refHeight * 2)),
+	  			'alive': false,
+	  			'alpha': 0,
+	  			'r': randomInt(-3, 3) * radToDegrees,
+	  			'xx': 0,
+	  			'yy': 0,
+	  			'height': 0,
+	  			'width': 0,
+	  			'direct': type
+	  		}
+	  		return Beach.updateRef(newRef);
+	  	},
+	  	initRefs: function() {
+	  		var direct;
+	  		// Create direct reflections and indirect reflections
+	  		for(var i = 0, direct = true; i < anim.refNumber && i < maxRefs; i++) {
+	  			refArray.push(Beach.generateRef(direct));
+	  		}
+	  		for(var i = 0, direct = false; i < anim.indirectRefNumber && i < maxIndirectRefs; i++) {
+	  			inRefArray.push(Beach.generateRef(direct));
+	  		}
+	  	},
+	  	drawRefs: function() {
+	  		etx.canvas.width = etx.canvas.width;
+	  		orbShowing = ((anim.moonYY + anim.moonR) > 0 && anim.moonYY - anim.moonR < anim.horizon) ? true : false
+	  		//etx.clearRect(0,anim.horizon,etx.canvas.width, etx.canvas.height);
+	  		var i = 0;
+			do {
+				refArray[randomInt(0,refArray.length-1)].alive = true;
+    			i++;
+			}
+			while (i < anim.refRespawnRate);
+
+			if(randomInt(0,5) > 1) {
+				inRefArray[randomInt(0,inRefArray.length-1)].alive = true;
+			}
+
+	  		var refLength = refArray.length;
+	  		var inRefLength = inRefArray.length
+
+	  		// Direct reflection 
+	  		for (i = 0; i < refLength; i++) {
+	  			if(refArray[i].alive === true) {
+					
+					if(refArray[i].alpha > 1) {
+						refArray[i].alive = false;
+					} else if(orbShowing){
+						refArray[i].alpha += 0.02;
+					} else {
+						refArray[i].alpha -= 0.02
+					}
+				}
+				else {
+					refArray[i].alpha -= 0.02;
+				}
+				Beach.drawRef(refArray[i]);
+	  		}
+	  		for (i = 0; i < inRefLength; i++) {
+	  			if(inRefArray[i].alive === true) {
+					
+					if(inRefArray[i].alpha > 1) {
+						inRefArray[i].alive = false;
+					} else {
+						inRefArray[i].alpha += 0.02;
+					}
+				}
+				else if(inRefArray[i].alpha < 0) {
+					inRefArray[i] = Beach.generateRef(false);
+				} else {
+					inRefArray[i].alpha -= 0.02;
+				}
+				Beach.drawRef(inRefArray[i]);
+	  		}
+			etx.clearRect(0,0,etx.canvas.width,anim.horizon)
+	  	},
+	  	drawRef: function(e) {
+	  		etx.fillStyle = palette.ref(e.alpha);
+	  		etx.beginPath();
+	  		if(!static) {
+	  			e = Beach.updateRef(e)
+	  		}
+			etx.ellipse(e.xx, e.yy, e.width, e.height, e.r, 0, twoPi);
+    		etx.fill();
+    	},
+    	updateRef: function(e) {
+    		if(e.direct === false) {
+    			e.xx = e.x;
+    			e.yy = anim.refRelY + (Math.floor(anim.refHeight * (Math.pow((e.y+upDown/4)%anim.refHeight*2, 3) / precalculation)) % anim.refHeight)
+    		} else {
+    			wrap = (e.y+upDown/4)%anim.refHeight*2
+    			e.xx = Math.floor((e.x - (e.x - anim.refRelX) * (wrap/ anim.refHeight/4)));
+    			e.yy = anim.refRelY + (Math.floor(anim.refHeight * (Math.pow(wrap, 3) / precalculation)) % anim.refHeight);
+    		}
+    		e.width = Math.floor(4 + (3 * (e.yy / anim.refRelY)));
+   			e.height = Math.floor(1 + (1 * (e.yy / anim.refRelY)/4));
+    		return e;
+    	},
+	  	generateStars: function(starsCount, opacity) {
+			for(var i = 0; i < numStars; i++) {
+				var x = randomInt(2, ctx.canvas.width-2),
+					y = randomInt(-anim.horizon, anim.horizon-starOffset),
+					size = sizes[randomInt(0, sizes.length-1)];
+	
+				// make sure the points don't collide with orb + 10
+				var distanceFromOrb = Math.floor(Math.sqrt(Math.pow((x-anim.moonX), 2)+ Math.pow(((y+starOffset)-anim.moonY), 2)));			
+				if(distanceFromOrb>(anim.moonR + 10) && ((y+starOffset) < anim.horizon - 10 || (y+starOffset) > anim.horizon + 5)) {
+					starArray.push(Beach.createStar(x, y, size, opacity));
+				}
+			}
+	  	},
+	  	createStar: function(x, y, size, alpha) {
+	  		Beach.drawStar(x, y, size, alpha);
+			return {
+				'x': x,
+				'y': y,
+				'size': size,
+				'alpha': alpha
+			};
+	  	},
+	  	drawStar: function(x, y, size, alpha) {
+	  		var radius = 0;
+			switch(size) {
+				case 'micro':
+					radius = 0.6;
+					break;
+				case 'mini':
+					radius = 1;
+					break;
+				case 'medium':
+					radius = 1.4;
+					break;
+				case 'big':
+					radius = 1.6;
+					break;
+				case 'max':
+					radius = 2.0;
+					break;
+			}
+
+			strGrd = dtx.createRadialGradient(x, y, 0, x + radius, y + radius, radius * 2);
+			strGrd.addColorStop(0, 'rgba(255, 255, 255, ' + alpha + ')');
+			strGrd.addColorStop(1, 'rgba(0, 0, 0, 0)');
+			dtx.fillStyle = skyGrd;
+			dtx.fillRect(x - radius - 1, y - radius - 1, radius * 2 + 2, radius * 2 + 2);
+	
+			dtx.beginPath();
+			dtx.arc(x,y,radius,0,twoPi);
+			dtx.fillStyle = strGrd;
+			dtx.fill();
+	  	},
+	  	twinkleStars: function(numberOfStarsToAnimate) {
+	  		for(var i = 0; i < numberOfStarsToAnimate; i++) {
+			var id = randomInt(0, starArray.length - 1),
+				obj = starArray[id],
+				newAlpha = obj.alpha;
+			do {
+				newAlpha = randomFloatAround(obj.alpha);
+			} while(newAlpha < min_bright || newAlpha > max_bright)
+			starArray[id] = Beach.createStar(obj.x, obj.y, obj.size, newAlpha);
+			}
+	  	},
+	  	initBackgroundTweens: function() {
+	  		for (var i in colors) {
+	  			tl.to(palette, 1, {
+	  				colorProps:{
+	  					sky: colors[i].sky, 
+	  					skyLight: colors[i].skyLight,
+	  					ocean: colors[i].ocean, 
+	  					oceanLight: colors[i].oceanLight,
+	  					orb: colors[i].orb,
+	  					orbLight: colors[i].orbLight
+	  				},
+	  				ease:Linear.easeNone
+	  			},
+	  			""+ i
+	  			);
+	  		}
+	  		tl.to((".button"), 1, {css:{backgroundColor: "rgb(228, 234, 255)"}, ease:Linear.easeNone}, "night")
+	  		tl.to((".button"), 1, {css:{backgroundColor: "rgb(237, 228, 255)"}, ease:Linear.easeNone}, "morning")
+	  		tl.to((".button"), 1, {css:{backgroundColor: "rgb(228, 241, 255)"}, ease:Linear.easeNone}, "daytime")
+	  		tl.to((".button"), 1, {css:{backgroundColor: "rgb(255, 228, 237)"}, ease:Linear.easeNone}, "evening")
+	  		tl.to(d, 3, {top: 3.5*anim.moonY+starOffset, ease: Linear.easeOut}, "night")
+	  		tl.to(d, 1, {opacity: 0, ease: Linear.easeOut}, "night")
+	  	}
+	}
+
+	// Helper functions
+
+	function hslLChange(hslString, addedLVal) {
+		var lVal = hslString.match(/...\)$/g).toString().substr(0,2);
+		var newLVal = parseInt(lVal) + addedLVal;
+		if(newLVal>100) {
+			newLVal = 100;
+		} else if(newLVal<0) {
+			newLVal = 0;
+		}
+		return hslString.replace(/...\)$/g, newLVal + "%)");
+	}
+	
+	function randomInt(a, b) {
+		return Math.floor(Math.random()*(b-a+1)+a);
+	}
+	
+	function randomSize(a, b) {
+		starCounter += 1;
+		if(starCounter%50 === 0) {
+			return 6;
+		}
+		return Math.floor(Math.random()*(b-a)+a);
+	}
+	
+	
+	function randomFloatAround(num) {
+		var plusminus = randomInt(0, 1000) % 2,
+			val = num;
+		if(plusminus)
+			val += 0.2;
+		else
+			val -= 0.2;
+		return parseFloat(val.toFixed(1));
+	}
+
+
+	//jQuery listeners and Timeline tweening
+	function listenToScrollEvent() {
+    	(window.addEventListener) ? window.addEventListener('scroll', debounceScroll, false) : window.attachEvent('onscroll', debounceScroll);
+	}
+
+	function debounceScroll() {
+    	clearTimeout(scrollTimeout);
+    	scrollTimeout = setTimeout(onScroll, scrollTimeoutDelay);
+	}
+
+	function onScroll() {
+    	currentScrollProgress = roundDecimal(window.scrollY / maxScroll, 4);
+    	//timeline.progress(currentScrollProgress); // either directly set the [progress] of the timeline which may produce a rather jumpy result
+    	TweenLite.to(tl, scrollTweenDuration, {
+    	    progress: currentScrollProgress,
+    	    onUpdate: setUpDown(currentScrollProgress),
+    	    ease: ease
+    	}); // or tween the [timeline] itself to produce a transition from one state to another i.e. it looks smooth
+	}
+
+	function roundDecimal(value, place) {
+    	return Math.round(value * Math.pow(10, place)) / Math.pow(10, place);
+	}
+
+	function setUpDown(scroll) {
+		static = false
+		upDown = scroll*document.documentElement.clientHeight;
+		anim.moonUpDown = (((scroll * 5 * anim.moonY) + 2*anim.moonY)%(5*anim.moonY)) - 4*anim.moonY 
+	}
+
+	function tellMe() {
+		console.log("tweeening" + this);
+	}
+	
+	// Performance tracker
+	window.countFPS = (function () {
+  		var lastLoop = (new Date()).getMilliseconds();
+  		var count = 1;
+  		var fps = 0;
+
+  		return function () {
+    		var currentLoop = (new Date()).getMilliseconds();
+    		if (lastLoop > currentLoop) {
+    	  		fps = count;
+    	  		count = 1;
+    		} else {
+    	  		count += 1;
+    		}
+    		lastLoop = currentLoop;
+    		return fps;
+  		};
+	}());
+
+	function drawBackground() {
+		Beach.drawSky();
+		Beach.drawOrb();
+		Beach.drawOcean();
+	}
+
+	
+	Beach.drawSky();
+	Beach.generateStars(numStars, 0.5);
+	Beach.initRefs();
+	Beach.drawRefs();
+	Beach.drawOrb();
+	Beach.drawOcean();
+	listenToScrollEvent();
+	onScroll();
+	Beach.initBackgroundTweens();
+
+	animate();
+
+})();
 
 
 
