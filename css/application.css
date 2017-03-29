@@ -100,7 +100,6 @@ nav li{
 }
 
 nav li:hover {
-	box-shadow:#b0b0b0 0px 0px 0px 1px, rgba(0,0,0,0.2) 0px 1px 2px;
 }
 
 nav li:first-child {
@@ -118,19 +117,16 @@ nav li:last-child div{
     width:100%;
     padding:1em 0;
     text-shadow:rgba(255,255,255,0.5) 0px 1px 0px;
-    background-color:#f0f0f0;
-    background-image:-webkit-linear-gradient(#f8f8f8, #f0f0f0);
-    box-shadow:inset rgba(255,255,255,0.5) -1px 0 0;
+    background-color: rgb(228, 229, 255);
 }
 
 .button:hover {
 	background-color: #f8f8f8;
-    background-image:-webkit-linear-gradient(#fbfbfb, #f0f0f0)
+	box-shadow: 10px 5px 5px black;
 }
 
 .button:active {
 	background-color:#e0e0e0;
-    background-image:-webkit-linear-gradient(#f0f0f0, #e0e0e0);
     box-shadow:inset rgba(0,0,0,0.2) 0 1px 2px;
 }
 

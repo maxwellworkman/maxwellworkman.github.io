@@ -122,19 +122,20 @@
 	inRefArray = [],
 	radToDegrees = Math.PI/180,
 	twoPi = 2 * Math.PI,
-	moonUpDown = 0,
-	moonYY = 0,
 	upDown = 0,
 	static = true,
 	skyGrd;
 
 	var numStars = Math.floor(ctx.canvas.width/density * (ctx.canvas.height/3)/density)
+	var starOffset = parseInt($("#stars").css("Top"))
 
 	var anim = new Object();
 	anim.horizon = Math.floor(ctx.canvas.height/3);
 	// Orb coordinates
 	anim.moonX = Math.floor(ctx.canvas.width/2);
 	anim.moonY = Math.floor(ctx.canvas.height/6);
+	anim.moonYY = anim.moonY;
+	anim.moonUpDown = -2*anim.moonY;
 	anim.moonR = Math.floor((anim.horizon - anim.horizon/3)/2);
 	anim.moonRollover = ctx.canvas.height;
 	// Shine gradient radius
@@ -156,7 +157,7 @@
 
 	
 	// setup Sky Gradient
-	skyGrd=ctx.createRadialGradient(anim.moonX, anim.moonY, anim.smallerCirc, anim.moonX, anim.moonY, anim.largerCirc);
+	skyGrd=ctx.createRadialGradient(anim.moonX, anim.moonYY, anim.smallerCirc, anim.moonX, anim.moonYY, anim.largerCirc);
 	skyGrd.addColorStop(0,palette.skyLight);
 	skyGrd.addColorStop(1,palette.sky);
 
@@ -217,7 +218,7 @@
 	  	drawSky: function() {
 	  		var smallerCirc = ctx.canvas.width/50;
 	  		var largerCirc = ctx.canvas.width-ctx.canvas.width/1.6;
-	  		var grd=ctx.createRadialGradient(anim.moonX, moonYY, anim.smallerCirc, anim.moonX, moonYY, anim.largerCirc);
+	  		var grd=ctx.createRadialGradient(anim.moonX, anim.moonYY, anim.smallerCirc, anim.moonX, anim.moonYY, anim.largerCirc);
 			grd.addColorStop(0,palette.skyLight);
 			grd.addColorStop(1,palette.sky);
 			ctx.fillStyle=grd;
@@ -231,15 +232,15 @@
 	  		btx.fillRect(0, anim.horizon-1, ctx.canvas.width, ctx.canvas.height)
 	  	},
 	  	drawOrb: function() {
-	  		moonYY = moonUpDown + 3*anim.moonY;
+	  		anim.moonYY = anim.moonUpDown + 3*anim.moonY;
 	  		ctx.beginPath();
-	      	ctx.arc(anim.moonX, moonYY, anim.moonR, 0, 2 * Math.PI, false);
+	      	ctx.arc(anim.moonX, anim.moonYY, anim.moonR, 0, 2 * Math.PI, false);
 	      	var grd = ctx.createRadialGradient(
 	      		anim.moonX + anim.moonR/2, 
-	      		moonYY - anim.moonR/2, 
+	      		anim.moonYY - anim.moonR/2, 
 	      		anim.smallerCirc, 
 	      		anim.moonX + anim.moonR/2, 
-	      		moonYY - anim.moonR/2, 
+	      		anim.moonYY - anim.moonR/2, 
 	      		anim.moonR * 1.3
 	      	);
 			grd.addColorStop(0,palette.orbLight);
@@ -278,7 +279,7 @@
 	  	},
 	  	drawRefs: function() {
 	  		etx.canvas.width = etx.canvas.width;
-	  		orbShowing = ((moonYY + anim.moonR) > 0 && moonYY - anim.moonR < anim.horizon) ? true : false
+	  		orbShowing = ((anim.moonYY + anim.moonR) > 0 && anim.moonYY - anim.moonR < anim.horizon) ? true : false
 	  		//etx.clearRect(0,anim.horizon,etx.canvas.width, etx.canvas.height);
 	  		var i = 0;
 			do {
@@ -354,14 +355,13 @@
 	  	generateStars: function(starsCount, opacity) {
 			for(var i = 0; i < numStars; i++) {
 				var x = randomInt(2, ctx.canvas.width-2),
-					y = randomInt(-anim.horizon/2, anim.horizon),
+					y = randomInt(-anim.horizon, anim.horizon-starOffset),
 					size = sizes[randomInt(0, sizes.length-1)];
 	
 				// make sure the points don't collide with orb + 10
-				var distanceFromOrb = Math.floor(Math.sqrt((x-anim.moonX)*(x-anim.moonX)+(y-anim.moonY)*(y-anim.moonY)));
-				if(distanceFromOrb>(anim.moonR + 10) && (y < anim.horizon - 10 || y > anim.horizon + 5)) {
+				var distanceFromOrb = Math.floor(Math.sqrt(Math.pow((x-anim.moonX), 2)+ Math.pow(((y+starOffset)-anim.moonY), 2)));			
+				if(distanceFromOrb>(anim.moonR + 10) && ((y+starOffset) < anim.horizon - 10 || (y+starOffset) > anim.horizon + 5)) {
 					starArray.push(Beach.createStar(x, y, size, opacity));
-					console.log(y);
 				}
 			}
 	  	},
@@ -432,7 +432,12 @@
 	  			""+ i
 	  			);
 	  		}
-	  		tl.to(d, 3, {top: 3.5*anim.moonY, ease: Linear.easeOut}, "night")
+	  		tl.to((".button"), 1, {css:{backgroundColor: "rgb(228, 234, 255)"}, ease:Linear.easeNone}, "night")
+	  		tl.to((".button"), 1, {css:{backgroundColor: "rgb(237, 228, 255)"}, ease:Linear.easeNone}, "morning")
+	  		tl.to((".button"), 1, {css:{backgroundColor: "rgb(228, 241, 255)"}, ease:Linear.easeNone}, "daytime")
+	  		tl.to((".button"), 1, {css:{backgroundColor: "rgb(255, 228, 237)"}, ease:Linear.easeNone}, "evening")
+	  		tl.to(d, 3, {top: 3.5*anim.moonY+starOffset, ease: Linear.easeOut}, "night")
+	  		tl.to(d, 1, {opacity: 0, ease: Linear.easeOut}, "night")
 	  	}
 	}
 
@@ -500,7 +505,7 @@
 	function setUpDown(scroll) {
 		static = false
 		upDown = scroll*document.documentElement.clientHeight;
-		moonUpDown = (((scroll * 5 * anim.moonY) + 2*anim.moonY)%(5*anim.moonY)) - 4*anim.moonY 
+		anim.moonUpDown = (((scroll * 5 * anim.moonY) + 2*anim.moonY)%(5*anim.moonY)) - 4*anim.moonY 
 	}
 
 	function tellMe() {
