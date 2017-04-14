@@ -86,10 +86,12 @@ ul {
     -moz-transition:all .15s ease-in-out;
     transition:all .15s ease-in-out;
     z-index: 10;
+    height: 7%;
 }
 
 nav li{
     display:table-cell;
+    vertical-align: middle;
     width:10%;
     margin:0;
     padding:0;
@@ -113,11 +115,14 @@ nav li:last-child div{
 	border-bottom-right-radius: .25em;
 }
 .button {
+	vertical-align: middle;
+	text-align: middle;
 	display:block;
     width:100%;
     padding:1em 0;
     text-shadow:rgba(255,255,255,0.5) 0px 1px 0px;
     background-color: rgb(228, 229, 255);
+    height: 100%;
 }
 
 .button:hover {
@@ -127,12 +132,10 @@ nav li:last-child div{
 
 .button:active {
 	background-color:#e0e0e0;
-    box-shadow:inset rgba(0,0,0,0.2) 0 1px 2px;
 }
 
 .button-text {
 	display:inline-block;
-    vertical-align:middle;
 }
 
 .button-symbols {
@@ -150,6 +153,70 @@ nav li:last-child div{
 	top: 0;
 	left: 0;
 	z-index: 101;
+}
+
+#tabular-content {
+	width: 100%;
+	height: 100%;
+	z-index: 15;
+}
+
+.tab {
+	background-color: rgb(228, 229, 255);
+	z-index: 8;
+	border-top-style: inset;
+	border-top-width: 4px;
+	
+}
+.active{
+	z-index: 9;
+}
+.tab iframe{
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	width: 50%;
+	min-width: 640px;
+	height:60%;
+}
+.tab p, .tab div{
+	width: 30em;
+	max-width: 70%;
+	margin-left: auto;
+	margin-right: auto;
+	font-size: 2em;
+}
+
+#About {
+	position: fixed;
+	height:100%;
+	width: 100%;
+	top: 93%;
+	display: none;
+}
+
+#Resume {
+	position: fixed;
+	height:100%;
+	width: 100%;
+	top: 93%;
+	display: none;
+}
+
+#Projects {
+	position: fixed;
+	height:100%;
+	width: 100%;
+	top: 93%;
+	display: none;
+}
+
+#Contact {
+	position: fixed;
+	height:100%;
+	width: 100%;
+	top: 93%;
+	display: none;
 }
 
 /*#sky {
