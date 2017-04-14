@@ -114,8 +114,8 @@
 	starImage = null,
 
 	//Reflection globals
-	refDensity = 300,
-	maxRefs = 300,
+	refDensity = 500,
+	maxRefs = 200,
 	indirectRefDensity = 800,
 	maxIndirectRefs = 30,
 	refArray = [],
@@ -124,7 +124,10 @@
 	twoPi = 2 * Math.PI,
 	upDown = 0,
 	static = true,
+	refStop = true,
 	skyGrd;
+
+	var resizeTimeout = null;
 
 	var numStars = Math.floor(ctx.canvas.width/density * (ctx.canvas.height/3)/density)
 	var starOffset = parseInt($("#stars").css("Top"))
@@ -154,6 +157,7 @@
   	anim.inRefRespawnRate = Math.floor(anim.indirectRefNumber/200);
   	// Star variables
   	anim.numberOfTwinkles = 20;
+  	anim.starTween = Math.floor(3.5*anim.moonY+starOffset);
 
 	
 	// setup Sky Gradient
@@ -171,7 +175,7 @@
 	var precalculation = Math.floor(Math.pow(anim.refHeight*2, 3));
 
 	// Timeline Globals
-	var tl = new TimelineMax({paused: true}),
+	var tl = new TimelineLite({paused: true}),
 	duration = 2,
     ease = Power2.easeOut,
     scrollTweenDuration = 0.1;
@@ -190,11 +194,13 @@
 	//RAF runction calls
 	function animate() {
 		if(static === false) {
-			drawBackground()
+			drawBackground();
 		} else {
 			Beach.twinkleStars(anim.numberOfTwinkles);
 		}
-		Beach.drawRefs();
+		if(refStop) {
+			Beach.drawRefs();
+		}
 		static = true;
 		window.requestAnimationFrame(function() {
 			$out.html(countFPS());
@@ -204,16 +210,69 @@
 
 
 	Beach = {
-	  	initializeCoords: function() {
-			anim.horizon = ctx.canvas.height/3;
+	  	reinitializeCoords: function() {
+			btx.canvas.width  = window.innerWidth;
+			btx.canvas.height = window.innerHeight;
+
+			ctx.canvas.width  = window.innerWidth;
+			ctx.canvas.height = window.innerHeight;
+
+			dtx.canvas.width  = window.innerWidth;
+			dtx.canvas.height = window.innerHeight;
+
+			etx.canvas.width  = window.innerWidth;
+			etx.canvas.height = window.innerHeight;
+			starArray = [];
+			refArray = [];
+			inRefArray = [];
+
+
+			numStars = Math.floor(ctx.canvas.width/density * (ctx.canvas.height/3)/density)
+
+			anim.horizon = Math.floor(ctx.canvas.height/3);
 			// Orb coordinates
-			anim.moonX = ctx.canvas.width/2;
-			anim.moonY = ctx.canvas.height/6;
-			// Orb size
-			anim.moonR = (anim.horizon - anim.horizon/3)/2;
+			anim.moonX = Math.floor(ctx.canvas.width/2);
+			anim.moonY = Math.floor(ctx.canvas.height/6);
+			anim.moonYY = anim.moonY;
+			anim.moonUpDown = -2*anim.moonY;
+			anim.moonR = Math.floor((anim.horizon - anim.horizon/3)/2);
+			anim.moonRollover = ctx.canvas.height;
 			// Shine gradient radius
-			anim.smallerCirc = ctx.canvas.width/50;
-  			anim.largerCirc = ctx.canvas.width-ctx.canvas.width/2;
+			anim.smallerCirc = Math.floor(ctx.canvas.width/50);
+  			anim.largerCirc = Math.floor(ctx.canvas.width-ctx.canvas.width/2);
+  			// Reflection variables
+  			anim.refWidth = Math.floor(2*anim.moonR);
+  			anim.refHeight = Math.floor(ctx.canvas.height - anim.horizon);
+  			anim.refNumber = Math.floor(anim.refWidth*anim.refHeight/refDensity);
+  			anim.refRespawnRate = Math.floor(anim.refNumber/70);
+  			anim.refRelX = anim.moonX;
+  			anim.refRelY = anim.horizon;
+  			anim.indirectRefNumber = Math.floor((anim.refHeight * ctx.canvas.width)/indirectRefDensity);
+  			anim.indirectRefMargin = Math.floor(ctx.canvas.width/20);
+  			anim.inRefRespawnRate = Math.floor(anim.indirectRefNumber/200);
+  			anim.starTween = Math.floor(3.5*anim.moonY+starOffset);
+
+  			// setup Sky Gradient
+			skyGrd=ctx.createRadialGradient(anim.moonX, anim.moonYY, anim.smallerCirc, anim.moonX, anim.moonYY, anim.largerCirc);
+			skyGrd.addColorStop(0,palette.skyLight);
+			skyGrd.addColorStop(1,palette.sky);
+		
+			// setup Reflection gradient
+			refGrd = etx.createLinearGradient(anim.moonX-anim.refWidth/2, 0, anim.moonX+anim.refWidth/2, 0);
+			refGrd.addColorStop(0,palette.oceanLight);
+			refGrd.addColorStop(0.5,palette.orb);
+			refGrd.addColorStop(1,palette.oceanLight);
+
+			// Reflection Globals
+			precalculation = Math.floor(Math.pow(anim.refHeight*2, 3));
+
+			maxScroll = Math.max(
+				document.body.scrollHeight, 
+				document.body.offsetHeight, 
+				document.documentElement.clientHeight, 
+				document.documentElement.scrollHeight, 
+				document.documentElement.offsetHeight)
+				 - window.innerHeight;
 	  	},
 	  	drawSky: function() {
 	  		var smallerCirc = ctx.canvas.width/50;
@@ -397,8 +456,11 @@
 			strGrd = dtx.createRadialGradient(x, y, 0, x + radius, y + radius, radius * 2);
 			strGrd.addColorStop(0, 'rgba(255, 255, 255, ' + alpha + ')');
 			strGrd.addColorStop(1, 'rgba(0, 0, 0, 0)');
+			//dtx.fillRect(x - radius - 1, y - radius - 1, radius * 2 + 2, radius * 2 + 2);
+			dtx.beginPath();
+			dtx.arc(x,y,radius+0.3,0,twoPi);
 			dtx.fillStyle = skyGrd;
-			dtx.fillRect(x - radius - 1, y - radius - 1, radius * 2 + 2, radius * 2 + 2);
+			dtx.fill();
 	
 			dtx.beginPath();
 			dtx.arc(x,y,radius,0,twoPi);
@@ -432,26 +494,59 @@
 	  			""+ i
 	  			);
 	  		}
-	  		tl.to((".button"), 1, {css:{backgroundColor: "rgb(228, 234, 255)"}, ease:Linear.easeNone}, "night")
-	  		tl.to((".button"), 1, {css:{backgroundColor: "rgb(237, 228, 255)"}, ease:Linear.easeNone}, "morning")
-	  		tl.to((".button"), 1, {css:{backgroundColor: "rgb(228, 241, 255)"}, ease:Linear.easeNone}, "daytime")
-	  		tl.to((".button"), 1, {css:{backgroundColor: "rgb(255, 228, 237)"}, ease:Linear.easeNone}, "evening")
-	  		tl.to(d, 3, {top: 3.5*anim.moonY+starOffset, ease: Linear.easeOut}, "night")
+	  		tl.to(([".button", ".tab"]), 1, {css:{backgroundColor: "rgb(228, 234, 255)"}, ease:Linear.easeNone}, "night")
+	  		tl.to(([".button", ".tab"]), 1, {css:{backgroundColor: "rgb(220, 228, 255)"}, ease:Linear.easeNone}, "morning")
+	  		tl.to(([".button", ".tab"]), 1, {css:{backgroundColor: "rgb(228, 241, 255)"}, ease:Linear.easeNone}, "daytime")
+	  		tl.to(([".button", ".tab"]), 1, {css:{backgroundColor: "rgb(255, 228, 237)"}, ease:Linear.easeNone}, "evening")
+	  		tl.to(d, 3, {top: anim.starTween, ease: Linear.easeOut}, "night")
 	  		tl.to(d, 1, {opacity: 0, ease: Linear.easeOut}, "night")
 	  	}
 	}
 
 	// Helper functions
 
-	function hslLChange(hslString, addedLVal) {
-		var lVal = hslString.match(/...\)$/g).toString().substr(0,2);
-		var newLVal = parseInt(lVal) + addedLVal;
-		if(newLVal>100) {
-			newLVal = 100;
-		} else if(newLVal<0) {
-			newLVal = 0;
-		}
-		return hslString.replace(/...\)$/g, newLVal + "%)");
+	function initTabTweens() {
+		$( "ul" ).on( "click", "li", function( event ) {
+			var clickedTab = $(this);
+    		var clickedTabText = clickedTab.find(".button-text").text();
+    		var clickedTabContent = $("#"+clickedTabText);
+    		if(clickedTab.hasClass("active")) {
+    			clickedTab.removeClass("active");
+    			clickedTabContent.removeClass("active");
+    			TweenLite.to(clickedTabContent, 1, {y: "0%", onStart: turnOnRefs, onComplete: hideTab, onCompleteParams:[clickedTabContent], ease: Power2.easeOut})
+    		} else {
+    			if($("ul li").hasClass("active")) {
+    				var activeTab = $("ul").find(".active");
+    				var activeTabText = activeTab.find(".button-text").text();
+    				var activeTabContent = $("#"+activeTabText);
+    				activeTab.removeClass("active");
+    				activeTabContent.removeClass("active");
+    				clickedTab.addClass("active");
+    				clickedTabContent.addClass("active");
+    				clickedTabContent.css("display", "block");
+    				TweenLite.to(clickedTabContent, 1, {y:"-60%", ease: Power2.easeOut})
+    				TweenLite.to(activeTabContent, 1, {y:"60%", onComplete: hideTab, onCompleteParams:[activeTabContent], ease: Power2.easeOut, delay: 1})
+    			} else {
+    				clickedTab.addClass("active");
+    				clickedTabContent.addClass("active");
+    				clickedTabContent.css("display", "block");
+    				TweenLite.to(clickedTabContent, 1, {y:"-60%", onComplete: turnOffRefs, ease: Power2.easeOut})
+    			}
+    		}
+		});
+
+	}
+
+	// tween helper functions
+
+	function hideTab(tab) {
+		tab.css({"display":"none"});
+	}
+	function turnOffRefs() {
+		refStop = false;
+	}
+	function turnOnRefs() {
+		refStop = true;
 	}
 	
 	function randomInt(a, b) {
@@ -531,6 +626,36 @@
   		};
 	}());
 
+	// Resize handler
+	window.addEventListener("resize", resizeThrottler, false);
+
+  	var resizeTimeout;
+  	function resizeThrottler() {
+  	  // ignore resize events as long as an actualResizeHandler execution is in the queue
+  	  if ( !resizeTimeout ) {
+  	    resizeTimeout = setTimeout(function() {
+  	      resizeTimeout = null;
+  	      actualResizeHandler();
+  	   
+  	     // The actualResizeHandler will execute at a rate of 15fps
+  	     }, 66);
+  	  }
+  	}
+	
+  	function actualResizeHandler() {
+  	  resize()
+  	}
+
+	function resize() {
+		Beach.reinitializeCoords();
+		Beach.drawSky();
+		Beach.generateStars(numStars, 0.5);
+		Beach.initRefs();
+		Beach.drawRefs();
+		Beach.drawOrb();
+		Beach.drawOcean();
+	}
+
 	function drawBackground() {
 		Beach.drawSky();
 		Beach.drawOrb();
@@ -547,6 +672,7 @@
 	listenToScrollEvent();
 	onScroll();
 	Beach.initBackgroundTweens();
+	initTabTweens();
 
 	animate();
 
