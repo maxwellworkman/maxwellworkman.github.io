@@ -192,7 +192,7 @@ nav li:last-child div{
 	height:100%;
 	width: 100%;
 	top: 93%;
-	display: none;
+	display: block;
 }
 
 #Resume {
@@ -200,7 +200,7 @@ nav li:last-child div{
 	height:100%;
 	width: 100%;
 	top: 93%;
-	display: none;
+	display: block;
 }
 
 #Projects {
@@ -208,7 +208,7 @@ nav li:last-child div{
 	height:100%;
 	width: 100%;
 	top: 93%;
-	display: none;
+	display: flex;
 }
 
 #Contact {
@@ -216,7 +216,7 @@ nav li:last-child div{
 	height:100%;
 	width: 100%;
 	top: 93%;
-	display: none;
+	display: block;
 }
 
 /*#sky {

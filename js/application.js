@@ -526,11 +526,13 @@
     				clickedTabContent.css("display", "block");
     				TweenLite.to(clickedTabContent, 1, {y:"-60%", ease: Power2.easeOut})
     				TweenLite.to(activeTabContent, 1, {y:"60%", onComplete: hideTab, onCompleteParams:[activeTabContent], ease: Power2.easeOut, delay: 1})
+    				scroll(clickedTabText);
     			} else {
     				clickedTab.addClass("active");
     				clickedTabContent.addClass("active");
     				clickedTabContent.css("display", "block");
     				TweenLite.to(clickedTabContent, 1, {y:"-60%", onComplete: turnOffRefs, ease: Power2.easeOut})
+    				scroll(clickedTabText);
     			}
     		}
 		});
@@ -538,6 +540,27 @@
 	}
 
 	// tween helper functions
+
+	function scroll(clickedTab) {
+		console.log("dingus")
+		var scrollTarget = 3;
+		switch(clickedTab) {
+			case "About": 
+				scrollTarget = 3;
+				break;
+			case "Resume": 
+				scrollTarget = 2;
+				break;
+			case "Projects": 
+				scrollTarget = 1;
+				break;
+			case "Contact": 
+				scrollTarget = 0;
+				break;
+		}
+		scrollPosition = maxScroll-(maxScroll*scrollTarget/3);
+		TweenLite.to(window, 2, {scrollTo:scrollPosition})
+	}
 
 	function hideTab(tab) {
 		tab.css({"display":"none"});
